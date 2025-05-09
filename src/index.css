@@ -1,0 +1,304 @@
+body {
+  background-color: #fdfbf8;
+  font-family: monospace;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 24px 16px;
+  min-height: 100vh;
+  max-width: 700px;
+  margin: auto;
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border-bottom: 1px solid black; */
+  padding-bottom: 8px;
+  margin: 20px 0;
+}
+
+.logo {
+  background-color: black;
+  color: white;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+.separator {
+  font-size: 12px;
+  /* letter-spacing: 2px; */
+}
+
+.nav {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.left {
+  display: flex;
+  gap: 24px;
+  text-decoration: underline;
+  font-weight: 500;
+}
+.nav a {
+  color: black;
+}
+.end {
+  font-weight: bold;
+}
+
+.blog {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.blog-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+  margin: 20px 0;
+}
+
+.dotted-line {
+  border-top: 3px dotted black;
+  margin: 8px 0;
+}
+
+.meta {
+  color: #666;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  margin: 20px 0;
+}
+hr {
+  margin: 30px 0;
+}
+.author {
+  font-weight: bold;
+  color: black;
+}
+
+.tags {
+  color: #666;
+  font-size: 0.875rem;
+  margin-bottom: 24px;
+  margin: 20px 0;
+}
+
+.tags span {
+  margin-right: 8px;
+}
+
+.blog-image-wrapper {
+  border: 16px solid #11111c;
+  background-color: white;
+  padding: 16px;
+}
+
+.blog-image {
+  width: 100%;
+  display: block;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+  font-size: 1.5em;
+}
+article {
+  margin-bottom: 10px;
+}
+.readmore a {
+  display: inline-flex;
+  border: none;
+  color: black;
+  background: none;
+  font-weight: bold;
+  font-size: 1.3em;
+  text-decoration: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 20px 0;
+  max-width: 100%;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.logo {
+  background-color: black;
+  color: white;
+  padding: 4px 8px;
+  font-weight: bold;
+  margin-right: 12px;
+  white-space: nowrap;
+}
+
+.separator {
+  position: relative;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.separator::after {
+  content: "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||";
+  color: black;
+  white-space: nowrap;
+  font-size: 1.5em;
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: clip;
+}
+.content {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+/* comments */
+.comments {
+  font-family: Arial, Helvetica, sans-serif;
+  border-top: 1px dotted #000;
+  margin-top: 4rem;
+  padding-top: 2rem;
+}
+
+.commentBox textarea {
+  width: 100%;
+  height: 100px;
+  font-size: 1.2em;
+  font-family: monospace;
+  resize: vertical;
+}
+
+.comment {
+  margin-top: 1.5rem;
+}
+button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  background-color: #111;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #444;
+}
+.commentAuthor {
+  font-weight: bold;
+}
+/* readmore */
+.readNext {
+  margin-top: 3rem;
+}
+
+.readNext h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.bloglist11 {
+  display: block;
+}
+
+.blog11 {
+  display: flex;
+  background: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  margin: 2em;
+}
+
+.blog11 img {
+  width: 100px;
+  object-fit: cover;
+  height: 100%;
+}
+
+.blogdetails {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.blog-title11 {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.blog-autherDate {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* footer */
+.footer {
+  color: #777;
+  text-align: center;
+  font-size: 0.875rem;
+  padding: 1rem 0;
+}
+
+.footer a {
+  text-decoration: underline;
+  color: #777;
+}
+
+.footer a:hover {
+  color: #333;
+}
+.buttondiv {
+  display: flex;
+  margin-left: 10px;
+  gap: 8px;
+}
+nav .logout {
+  color: red;
+  cursor: pointer;
+}
+.submitdiv {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.submitdiv p {
+  color: red;
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .nav {
+    align-items: self-start;
+  }
+}

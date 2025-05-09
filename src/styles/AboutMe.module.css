@@ -1,0 +1,33 @@
+.container {
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.separator {
+  border: none;
+  border-top: 3px dotted #333;
+  margin: 10px 0;
+}
+
+.readTime {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.subTitle {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.info p {
+  margin: 5px 0;
+  font-size: 1rem;
+}

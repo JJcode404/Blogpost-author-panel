@@ -1,0 +1,39 @@
+.header {
+  padding: 1rem 2rem;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: black;
+  color: white;
+}
+
+.navlinks ul {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 0;
+  list-style: none;
+  gap: 2rem;
+}
+
+.navlinks li a {
+  text-decoration: none;
+  font-weight: 500;
+  color: black;
+  transition: color 0.3s ease;
+}
