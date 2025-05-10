@@ -4,15 +4,8 @@ import { Editor } from "@tinymce/tinymce-react";
 function NewPostSection() {
   const fileInputRef = useRef(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const editorRef = useRef(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (editorRef.current) {
-      const content = editorRef.current.getContent();
-      console.log("Post Content:", content);
-    }
-  };
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   const handleUploadBoxClick = () => {
     fileInputRef.current.click();
@@ -84,12 +77,17 @@ function NewPostSection() {
           type="text"
           name="tags"
           id="tags"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
           placeholder="e.g., tech, javascript"
         />
 
         <label htmlFor="content">Content</label>
         <Editor
           apiKey="9f9k5uzdnrutoftbl98w2rm2nmqn6gkeuvh0xldwh30hm7qd"
+          onEditorChange={(newcontent) => setContent(newcontent)}
           init={{
             plugins: [
               "anchor",
@@ -141,12 +139,19 @@ function NewPostSection() {
                 Promise.reject("See docs to implement AI Assistant")
               ),
           }}
-          initialValue="Hellow, world!"
+          initialValue="<p>Start writing your post here...</p>"
         />
 
-        <button type="submit" className="btn" style={{ marginTop: "1rem" }}>
-          Create Post
-        </button>
+        <div className="action">
+          <button type="submit" className="btn" style={{ marginTop: "1rem" }}>
+            Create Post
+          </button>
+          {content && (
+            <button className="btn" style={{ marginTop: "1rem" }}>
+              Preview
+            </button>
+          )}
+        </div>
       </form>
     </section>
   );
