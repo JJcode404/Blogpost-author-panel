@@ -6,14 +6,17 @@ import { PostsList } from "./componets/postList";
 import { NewPostSection } from "./componets/Newpost";
 import { Footer } from "./componets/footer.";
 import { useParams } from "react-router";
+import { PostDataProvider } from "./utilis/postContext";
 function App() {
   const { id } = useParams();
   return (
     <AuthProvider>
       <div className="main">
         <Header />
-        <PostsList authorId={id} />
-        <NewPostSection authorId={id} />
+        <PostDataProvider authorId={id}>
+          <PostsList />
+          <NewPostSection />
+        </PostDataProvider>
         <CommentsList authorId={id} />
         <Footer />
       </div>

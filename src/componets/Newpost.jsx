@@ -1,11 +1,19 @@
 import { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { usePost } from "../utilis/postContext";
+import { usePostReq } from "../utilis/usePostReq";
+import Loader from "./Loader";
 
 function NewPostSection() {
+  const { handleNewPost, userId, loading: postLoading } = usePost();
   const fileInputRef = useRef(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [thumbnailFile, setThumbnailFile] = useState(null);
   const [title, setTitle] = useState("");
+  const [published, setPublished] = useState(false);
   const [content, setContent] = useState("");
+  const [tags, setTags] = useState("");
+  const { loading: reqLoading, postData, error } = usePostReq();
 
   const handleUploadBoxClick = () => {
     fileInputRef.current.click();
@@ -13,6 +21,7 @@ function NewPostSection() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    setThumbnailFile(file);
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -20,21 +29,60 @@ function NewPostSection() {
       };
       reader.readAsDataURL(file);
     } else {
-      setThumbnailPreview(
-        "The selected file is not a valid image. Please upload a .jpg, .png, or .gif file."
-      );
+      setThumbnailPreview("Please upload a valid image file.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("authorId", userId);
+    formData.append("published", published);
+
+    const tagArray = tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+
+    formData.append("tags", JSON.stringify(tagArray));
+    if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
+    console.log("Form Data Content:");
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+
+    try {
+      const response = await postData("http://localhost:3000/posts", formData);
+      console.log("this is the response form post data", response);
+
+      handleNewPost(response);
+
+      setTitle("");
+      setContent("");
+      setTags("");
+      setThumbnailFile(null);
+      setThumbnailPreview(null);
+      setPublished(false);
+    } catch (error) {
+      console.error("Error creating post:", error);
     }
   };
 
   return (
     <section id="new">
+      {(postLoading || reqLoading) && <Loader />}
       <h2>New Post</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <input
           type="text"
           name="title"
           id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter your post title..."
         />
 
@@ -77,10 +125,8 @@ function NewPostSection() {
           type="text"
           name="tags"
           id="tags"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
           placeholder="e.g., tech, javascript"
         />
 
@@ -88,66 +134,31 @@ function NewPostSection() {
         <Editor
           apiKey="9f9k5uzdnrutoftbl98w2rm2nmqn6gkeuvh0xldwh30hm7qd"
           onEditorChange={(newcontent) => setContent(newcontent)}
+          value={content}
           init={{
-            plugins: [
-              "anchor",
-              "autolink",
-              "charmap",
-              "codesample",
-              "emoticons",
-              "image",
-              "link",
-              "lists",
-              "media",
-              "searchreplace",
-              "table",
-              "visualblocks",
-              "wordcount",
-              "checklist",
-              "mediaembed",
-              "casechange",
-              "formatpainter",
-              "pageembed",
-              "a11ychecker",
-              "tinymcespellchecker",
-              "permanentpen",
-              "powerpaste",
-              "advtable",
-              "advcode",
-              "editimage",
-              "advtemplate",
-              "ai",
-              "mentions",
-              "tinycomments",
-              "tableofcontents",
-              "footnotes",
-              "mergetags",
-              "autocorrect",
-              "typography",
-              "inlinecss",
-              "markdown",
-              "importword",
-              "exportword",
-              "exportpdf",
-            ],
+            plugins: ["link", "image", "lists", "media", "wordcount"],
             toolbar:
-              "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
-            tinycomments_mode: "embedded",
-            tinycomments_author: "Author name",
-            ai_request: (request, respondWith) =>
-              respondWith.string(() =>
-                Promise.reject("See docs to implement AI Assistant")
-              ),
+              "undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image",
           }}
-          initialValue="<p>Start writing your post here...</p>"
         />
+        <div style={{ marginTop: "1rem" }}>
+          <label htmlFor="published">
+            <input
+              type="checkbox"
+              id="published"
+              checked={published}
+              onChange={(e) => setPublished(e.target.checked)}
+            />
+            &nbsp; Publish immediately
+          </label>
+        </div>
 
         <div className="action">
           <button type="submit" className="btn" style={{ marginTop: "1rem" }}>
             Create Post
           </button>
           {content && (
-            <button className="btn" style={{ marginTop: "1rem" }}>
+            <button type="button" className="btn" style={{ marginTop: "1rem" }}>
               Preview
             </button>
           )}

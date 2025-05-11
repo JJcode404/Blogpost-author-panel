@@ -1,19 +1,19 @@
-import { useFetch } from "../utilis/userFetch";
+import { usePost } from "../utilis/postContext";
 
-function PostsList({ authorId }) {
-  const { data, error, loading } = useFetch(
-    `http://localhost:3000/users/posts/${authorId}`
-  );
+function PostsList() {
+  const { posts, loading, error } = usePost();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error fetching posts: {error.message}</p>;
-
-  const posts = Array.isArray(data) ? data : data?.posts || [];
-  const authorName = data?.name || "Unknown Author";
+  if (posts) {
+    console.log(posts);
+  }
+  // const posts = Array.isArray(data) ? data : data?.posts || [];
+  // const authorName = data?.name || "Unknown Author";
 
   return (
     <section id="posts">
-      <h2>All Posts by {authorName}</h2>
+      <h2>All Posts</h2>
       <table>
         <thead>
           <tr>

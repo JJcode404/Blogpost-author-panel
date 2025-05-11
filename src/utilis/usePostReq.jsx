@@ -14,10 +14,10 @@ const usePostReq = () => {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          // Do not set Content-Type here when using FormData
         },
-        body: JSON.stringify(payload),
+        body: payload, // Send the FormData directly as the body
       });
 
       if (!response.ok) {
