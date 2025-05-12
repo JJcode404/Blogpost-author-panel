@@ -1,43 +1,100 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import { usePatchReq } from "../utilis/usePatchReq";
+import { useFetch } from "../utilis/userFetch";
+import { useDeleteReq } from "../utilis/useDeleteReq";
 
 function CommentsList({ authorId }) {
   const [page, setPage] = useState(1);
+  const limit = 5;
   const [comments, setComments] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    data,
+    loading: fetching,
+    error: fetchingError,
+    refetch,
+  } = useFetch(
+    `http://localhost:3000/comments/user/${authorId}?page=${page}&limit=${limit}`
+  );
+  const { patchData, loading: patching, error: patchingError } = usePatchReq();
+  const {
+    deleteData,
+    loading: deleting,
+    error: deletingError,
+  } = useDeleteReq();
 
-  const limit = 5;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [editedContent, setEditedContent] = useState("");
 
   useEffect(() => {
-    const fetchComments = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(
-          `http://localhost:3000/comments/user/${authorId}?page=${page}&limit=${limit}`
-        );
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        setComments(data.comments);
-        setTotalPages(data.totalPages);
-        setError(null);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    console.log(data);
+    if (data) setComments(data.comments);
+  }, [data]);
 
-    fetchComments();
-  }, [authorId, page]);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error fetching comments: {error.message}</p>;
+  const handleEditClick = (comment) => {
+    console.log("here is the comment returned", comment);
+    setSelectedComment(comment);
+    setEditedContent(comment.content);
+    setIsModalOpen(true);
+  };
+  const updateComment = async (comment) => {
+    try {
+      await patchData(`http://localhost:3000/comments/${comment.id}/`, {
+        content: comment.content,
+      });
+      setSelectedComment(null);
+      await refetch();
+    } catch (err) {
+      console.error("Failed to update comment:", err);
+    }
+  };
+  const deleteComment = async (commentId) => {
+    if (!confirm("Are you sure you want to delete this comment?")) return;
+    try {
+      await deleteData(`http://localhost:3000/comments/${commentId}`);
+      await refetch();
+    } catch (err) {
+      console.error("Failed to delete comment:", err);
+    }
+  };
 
   return (
     <section id="comments">
       <h2>Manage Comments</h2>
+      {isModalOpen && selectedComment && (
+        <div className="modal-backdrop">
+          <div className="modal">
+            <h3>Edit Comment</h3>
+            <textarea
+              // defaultValue={selectedComment.content}
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+              rows={4}
+              cols={50}
+            />
+            <div className="modal-actions">
+              <button
+                className="btn"
+                onClick={async () => {
+                  await updateComment({
+                    ...selectedComment,
+                    content: editedContent,
+                  });
+                  setIsModalOpen(false);
+                }}
+              >
+                Save
+              </button>
+              <button className="btn" onClick={() => setIsModalOpen(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {comments.length === 0 && <p>No comments available.</p>}
       {comments.map((comment, index) => (
         <div className="comment" key={index}>
@@ -50,8 +107,12 @@ function CommentsList({ authorId }) {
               <strong>Post title:</strong> {comment.postTitle}
             </p>
             <div className="action">
-              <button className="btn">Edit</button>
-              <button className="btn">Delete</button>
+              <button className="btn" onClick={() => handleEditClick(comment)}>
+                Edit
+              </button>
+              <button className="btn" onClick={() => deleteComment(comment.id)}>
+                Delete
+              </button>
             </div>
           </div>
           <div className="right">

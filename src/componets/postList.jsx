@@ -1,15 +1,27 @@
 import { usePost } from "../utilis/postContext";
 
 function PostsList() {
-  const { posts, loading, error } = usePost();
+  const { posts, loading, error, updatePublish, deletePost } = usePost();
+
+  const handleTogglePublish = async (post) => {
+    try {
+      await updatePublish(post.id || post._id, post.published);
+    } catch (err) {
+      console.error("Error toggling publish:", err);
+    }
+  };
+
+  const handleDelete = async (post) => {
+    if (!confirm("Are you sure you want to delete this post?")) return;
+    try {
+      await deletePost(post.id || post._id);
+    } catch (err) {
+      console.error("Error deleting post:", err);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error fetching posts: {error.message}</p>;
-  if (posts) {
-    console.log(posts);
-  }
-  // const posts = Array.isArray(data) ? data : data?.posts || [];
-  // const authorName = data?.name || "Unknown Author";
 
   return (
     <section id="posts">
@@ -37,11 +49,16 @@ function PostsList() {
                   </strong>
                 </td>
                 <td>
-                  <div className="action">
-                    <button className="btn">
+                  <div className="action btntable">
+                    <button
+                      className="btn"
+                      onClick={() => handleTogglePublish(post)}
+                    >
                       {post.published ? "Unpublish" : "Publish"}
                     </button>
-                    <button className="btn">Delete</button>
+                    <button className="btn" onClick={() => handleDelete(post)}>
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>

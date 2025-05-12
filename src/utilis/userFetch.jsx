@@ -1,32 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const useFetch = (url = "http://localhost:3000/posts") => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    console.log(url);
+  const fetchData = useCallback(async () => {
     if (!url) {
-      setError("Url required");
+      setError("URL is required");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(url, { mode: "cors" });
+      if (response.status >= 400) {
+        throw new Error("Server error");
+      }
+      const result = await response.json();
+      setData(result);
+    } catch (err) {
+      setError(err.message || "Unknown error");
+    } finally {
       setLoading(false);
     }
-    fetch(`${url}`, { mode: "cors" })
-      .then((response) => {
-        if (response.status >= 400) {
-          throw new Error("server error");
-        }
-        return response.json();
-      })
-      .then((response) => {
-        console.log(response);
-        setData(response);
-      })
-      .catch((error) => setError(error))
-      .finally(() => setLoading(false));
-  }, []);
+  }, [url]);
 
-  return { data, error, loading };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { data, error, loading, refetch: fetchData };
 };
 
 export { useFetch };

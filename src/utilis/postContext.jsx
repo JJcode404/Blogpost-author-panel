@@ -1,39 +1,70 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { usePatchReq } from "./usePatchReq";
+import { useFetch } from "./userFetch";
+import { useDeleteReq } from "./useDeleteReq";
 
 const PostContext = createContext(null);
 
 const PostDataProvider = ({ children, authorId }) => {
+  const {
+    data,
+    loading: fetching,
+    error: fetchingError,
+    refetch,
+  } = useFetch(`http://localhost:3000/users/posts/${authorId}`);
+  const { patchData, loading: patching, error: patchingError } = usePatchReq();
+  const {
+    deleteData,
+    loading: deleting,
+    error: deletingError,
+  } = useDeleteReq();
+
   const [posts, setPosts] = useState([]);
   const userId = authorId;
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
+  // Sync posts when data changes
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/users/posts/${authorId}`
-        );
-        if (!res.ok) throw new Error("Failed to fetch posts");
-        const data = await res.json();
-        setPosts(data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (authorId) fetchPosts();
-  }, [authorId]);
+    if (data) setPosts(data);
+  }, [data]);
 
   const handleNewPost = (newPost) => {
     setPosts((prev) => [newPost, ...prev]);
   };
 
+  const updatePublish = async (postId, currentStatus) => {
+    try {
+      await patchData(`http://localhost:3000/posts/${postId}/publish`, {
+        published: !currentStatus,
+      });
+      await refetch(); // Refetch posts from useFetch
+    } catch (err) {
+      console.error("Failed to update publish status:", err);
+    }
+  };
+
+  const deletePost = async (postId) => {
+    try {
+      await deleteData(`http://localhost:3000/posts/${postId}`);
+      await refetch(); // Refetch posts from useFetch
+    } catch (err) {
+      console.error("Failed to delete post:", err);
+    }
+  };
+
+  const loading = fetching || patching || deleting;
+  const error = fetchingError || patchingError || deletingError;
+
   return (
     <PostContext.Provider
-      value={{ posts, handleNewPost, loading, error, userId }}
+      value={{
+        posts,
+        handleNewPost,
+        updatePublish,
+        deletePost,
+        loading,
+        error,
+        userId,
+      }}
     >
       {children}
     </PostContext.Provider>
