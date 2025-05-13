@@ -31,9 +31,11 @@ const usePostReq = () => {
 
       const result = await response.json();
       setData(result);
+      alert("Post created!");
       return result;
     } catch (err) {
       setError(err.message || "Unknown error");
+      alert(err.message);
       throw err;
     } finally {
       setLoading(false);

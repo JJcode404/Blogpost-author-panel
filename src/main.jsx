@@ -3,10 +3,10 @@ import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { routers } from "./componets/routers";
+import { PostDataProvider } from "./utilis/postContext";
 
-const router = createBrowserRouter(routers);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider router={routers} />
   </StrictMode>
 );

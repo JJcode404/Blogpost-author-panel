@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { usePatchReq } from "../utilis/usePatchReq";
 import { useFetch } from "../utilis/userFetch";
 import { useDeleteReq } from "../utilis/useDeleteReq";
+import Loader from "./Loader";
 
 function CommentsList({ authorId }) {
   const [page, setPage] = useState(1);
@@ -15,7 +16,7 @@ function CommentsList({ authorId }) {
     error: fetchingError,
     refetch,
   } = useFetch(
-    `http://localhost:3000/comments/user/${authorId}?page=${page}&limit=${limit}`
+    `http://localhost:3000/users/comments/${authorId}?page=${page}&limit=${limit}`
   );
   const { patchData, loading: patching, error: patchingError } = usePatchReq();
   const {
@@ -29,8 +30,10 @@ function CommentsList({ authorId }) {
   const [editedContent, setEditedContent] = useState("");
 
   useEffect(() => {
-    console.log(data);
-    if (data) setComments(data.comments);
+    if (data) {
+      setComments(data.comments);
+      console.log(data);
+    }
   }, [data]);
 
   const handleEditClick = (comment) => {
@@ -62,13 +65,13 @@ function CommentsList({ authorId }) {
 
   return (
     <section id="comments">
+      {(fetching || deleting || patching) && <Loader />}
       <h2>Manage Comments</h2>
       {isModalOpen && selectedComment && (
         <div className="modal-backdrop">
           <div className="modal">
             <h3>Edit Comment</h3>
             <textarea
-              // defaultValue={selectedComment.content}
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
               rows={4}

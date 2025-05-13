@@ -1,7 +1,7 @@
 import { usePost } from "../utilis/postContext";
 
 function PostsList() {
-  const { posts, loading, error, updatePublish, deletePost } = usePost();
+  const { posts, updatePublish, deletePost } = usePost();
 
   const handleTogglePublish = async (post) => {
     try {
@@ -19,9 +19,6 @@ function PostsList() {
       console.error("Error deleting post:", err);
     }
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error fetching posts: {error.message}</p>;
 
   return (
     <section id="posts">

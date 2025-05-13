@@ -3,17 +3,29 @@ import { Editor } from "@tinymce/tinymce-react";
 import { usePost } from "../utilis/postContext";
 import { usePostReq } from "../utilis/usePostReq";
 import Loader from "./Loader";
+import { useNavigate } from "react-router";
+import { usePostDraft } from "../utilis/postDraftContext";
 
 function NewPostSection() {
   const { handleNewPost, userId, loading: postLoading } = usePost();
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const [thumbnailFile, setThumbnailFile] = useState(null);
-  const [title, setTitle] = useState("");
-  const [published, setPublished] = useState(false);
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
-  const { loading: reqLoading, postData, error } = usePostReq();
+  const { loading: reqLoading, postData } = usePostReq();
+
+  const {
+    title,
+    setTitle,
+    content,
+    setContent,
+    tags,
+    setTags,
+    published,
+    setPublished,
+    thumbnailPreview,
+    setThumbnailPreview,
+    thumbnailFile,
+    setThumbnailFile,
+  } = usePostDraft();
 
   const handleUploadBoxClick = () => {
     fileInputRef.current.click();
@@ -69,6 +81,10 @@ function NewPostSection() {
     } catch (error) {
       console.error("Error creating post:", error);
     }
+  };
+
+  const handlePreview = () => {
+    navigate("/preview");
   };
 
   return (
@@ -158,7 +174,12 @@ function NewPostSection() {
             Create Post
           </button>
           {content && (
-            <button type="button" className="btn" style={{ marginTop: "1rem" }}>
+            <button
+              type="button"
+              className="btn"
+              onClick={handlePreview}
+              style={{ marginTop: "1rem" }}
+            >
               Preview
             </button>
           )}

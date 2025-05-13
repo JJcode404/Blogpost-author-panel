@@ -9,6 +9,7 @@ import { useParams } from "react-router";
 import { PostDataProvider } from "./utilis/postContext";
 function App() {
   const { id } = useParams();
+  console.log(id);
   return (
     <AuthProvider>
       <div className="main">
