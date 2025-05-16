@@ -3,6 +3,8 @@ import { NotFound } from "./NoFound";
 import { App } from "../App";
 import { PostPreview } from "./PostPreview";
 import { PostDraftProvider } from "../utilis/postDraftContext";
+import { Forbidden } from "./forbiden";
+import { Unauthorized } from "./unauthorized";
 
 const routers = createBrowserRouter([
   {
@@ -17,6 +19,14 @@ const routers = createBrowserRouter([
   {
     path: "*",
     element: <NotFound />,
+  },
+  {
+    path: "/forbiden",
+    element: <Forbidden />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
   },
   {
     path: "/preview",

@@ -213,6 +213,9 @@ textarea {
     padding: 0;
     width: 100%;
   }
+  .comment {
+    display: block;
+  }
 
   header {
     padding: 1rem;
