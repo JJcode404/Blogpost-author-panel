@@ -7,9 +7,17 @@ import { NewPostSection } from "./componets/Newpost";
 import { Footer } from "./componets/footer.";
 import { useParams } from "react-router";
 import { PostDataProvider } from "./utilis/postContext";
+import { useEffect } from "react";
+
 function App() {
   const { id } = useParams();
-  console.log(id);
+  const params = new URLSearchParams(window.location.search);
+  useEffect(() => {
+    const token = params.get("token");
+    console.log("here is the token", token);
+    localStorage.setItem("jwt", token);
+  });
+
   return (
     <AuthProvider>
       <div className="main">

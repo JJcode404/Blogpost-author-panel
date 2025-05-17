@@ -5,7 +5,8 @@ const useFetch = (url = "http://localhost:3000/posts") => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("jwt");
+  console.log("token form usefetch", token);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
