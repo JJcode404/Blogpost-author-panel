@@ -70,7 +70,10 @@ function NewPostSection() {
     }
 
     try {
-      const response = await postData("http://localhost:3000/posts", formData);
+      const response = await postData(
+        "https://blog-post-api-posm.onrender.com/posts",
+        formData
+      );
       console.log("this is the response form post data", response);
 
       handleNewPost(response);

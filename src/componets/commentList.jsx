@@ -16,7 +16,7 @@ function CommentsList({ authorId }) {
     error: fetchingError,
     refetch,
   } = useFetch(
-    `http://localhost:3000/users/comments/${authorId}?page=${page}&limit=${limit}`
+    `https://blog-post-api-posm.onrender.com/users/comments/${authorId}?page=${page}&limit=${limit}`
   );
   const { patchData, loading: patching, error: patchingError } = usePatchReq();
   const {
@@ -44,9 +44,12 @@ function CommentsList({ authorId }) {
   };
   const updateComment = async (comment) => {
     try {
-      await patchData(`http://localhost:3000/comments/${comment.id}/`, {
-        content: comment.content,
-      });
+      await patchData(
+        `https://blog-post-api-posm.onrender.com/comments/${comment.id}/`,
+        {
+          content: comment.content,
+        }
+      );
       setSelectedComment(null);
       await refetch();
     } catch (err) {
@@ -56,7 +59,9 @@ function CommentsList({ authorId }) {
   const deleteComment = async (commentId) => {
     if (!confirm("Are you sure you want to delete this comment?")) return;
     try {
-      await deleteData(`http://localhost:3000/comments/${commentId}`);
+      await deleteData(
+        `https://blog-post-api-posm.onrender.com/comments/${commentId}`
+      );
       await refetch();
     } catch (err) {
       console.error("Failed to delete comment:", err);

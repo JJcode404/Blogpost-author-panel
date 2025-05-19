@@ -11,7 +11,9 @@ const PostDataProvider = ({ children, authorId }) => {
     loading: fetching,
     error: fetchingError,
     refetch,
-  } = useFetch(`http://localhost:3000/users/posts/${authorId}`);
+  } = useFetch(
+    `https://blog-post-api-posm.onrender.com/users/posts/${authorId}`
+  );
   const { patchData, loading: patching, error: patchingError } = usePatchReq();
   const {
     deleteData,
@@ -33,9 +35,12 @@ const PostDataProvider = ({ children, authorId }) => {
 
   const updatePublish = async (postId, currentStatus) => {
     try {
-      await patchData(`http://localhost:3000/posts/${postId}/publish`, {
-        published: !currentStatus,
-      });
+      await patchData(
+        `https://blog-post-api-posm.onrender.com/posts/${postId}/publish`,
+        {
+          published: !currentStatus,
+        }
+      );
       await refetch(); // Refetch posts from useFetch
     } catch (err) {
       console.error("Failed to update publish status:", err);
@@ -44,7 +49,9 @@ const PostDataProvider = ({ children, authorId }) => {
 
   const deletePost = async (postId) => {
     try {
-      await deleteData(`http://localhost:3000/posts/${postId}`);
+      await deleteData(
+        `https://blog-post-api-posm.onrender.com/posts/${postId}`
+      );
       await refetch(); // Refetch posts from useFetch
     } catch (err) {
       console.error("Failed to delete post:", err);

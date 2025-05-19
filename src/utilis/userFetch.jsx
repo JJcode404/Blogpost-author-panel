@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router";
 
-const useFetch = (url = "http://localhost:3000/posts") => {
+const useFetch = (url = "https://blog-post-api-posm.onrender.com/posts") => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
