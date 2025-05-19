@@ -11,6 +11,7 @@ function NewPostSection() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const { loading: reqLoading, postData } = usePostReq();
+  const [thumbnailValid, setThumbnailValid] = useState(true);
 
   const {
     title,
@@ -38,10 +39,12 @@ function NewPostSection() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setThumbnailPreview(reader.result);
+        setThumbnailValid(true);
       };
       reader.readAsDataURL(file);
     } else {
       setThumbnailPreview("Please upload a valid image file.");
+      setThumbnailValid(false);
     }
   };
 
@@ -130,7 +133,7 @@ function NewPostSection() {
           type="file"
           name="thumbnail"
           id="thumbnail"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/gif,image/webp"
           ref={fileInputRef}
           style={{ display: "none" }}
           onChange={handleFileChange}
@@ -170,7 +173,12 @@ function NewPostSection() {
         </div>
 
         <div className="action">
-          <button type="submit" className="btn" style={{ marginTop: "1rem" }}>
+          <button
+            type="submit"
+            className="btn"
+            disabled={!thumbnailValid}
+            style={{ marginTop: "1rem" }}
+          >
             Create Post
           </button>
           {content && (

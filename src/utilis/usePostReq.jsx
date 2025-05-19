@@ -35,6 +35,7 @@ const usePostReq = () => {
       return result;
     } catch (err) {
       setError(err.message || "Unknown error");
+      console.log("here is the error", err);
       alert(err.message);
       throw err;
     } finally {

@@ -225,6 +225,11 @@ textarea {
     display: block;
     margin: 0.5rem 0;
   }
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
 
   table,
   thead,

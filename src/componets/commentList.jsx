@@ -103,7 +103,9 @@ function CommentsList({ authorId }) {
         <div className="comment" key={index}>
           <div className="left">
             <p>
-              <strong>{comment.authorName || "Anonymous"}:</strong>{" "}
+              <strong style={{ textTransform: "capitalize" }}>
+                {comment.authorName || "Anonymous"}:
+              </strong>{" "}
               {comment.content}
             </p>
             <p>
