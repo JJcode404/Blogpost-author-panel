@@ -1,0 +1,86 @@
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 200 200"
+      width="300"
+      height="300"
+    >
+      <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color: #232323; stop-opacity: 1" />
+          <stop offset="50%" style="stop-color: #333333; stop-opacity: 1" />
+          <stop offset="100%" style="stop-color: #232323; stop-opacity: 1" />
+        </linearGradient>
+
+        <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color: #e2b714; stop-opacity: 0.8" />
+          <stop offset="50%" style="stop-color: #232323; stop-opacity: 0.2" />
+          <stop offset="100%" style="stop-color: #e2b714; stop-opacity: 0.8" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="rotate"
+            values="0 100 100;360 100 100"
+            dur="3s"
+            repeatCount="indefinite"
+          />
+        </linearGradient>
+      </defs>
+
+      <circle
+        cx="100"
+        cy="100"
+        r="95"
+        fill="none"
+        stroke="url(#borderGradient)"
+        stroke-width="2"
+        opacity="0.6"
+      >
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          values="0 100 100;360 100 100"
+          dur="4s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      <circle cx="100" cy="100" r="90" fill="url(#bgGradient)">
+        <animate
+          attributeName="r"
+          values="88;92;88"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      <g fill="#f0f0f0">
+        <path
+          d="M55,55 L65,55 L75,110 L85,70 L95,110 L105,55 L115,55 L100,145 L85,90 L70,145 z"
+          stroke="#f0f0f0"
+          stroke-width="0"
+          fill="#f0f0f0"
+        >
+          <animate
+            attributeName="opacity"
+            values="0.3;1;0.3"
+            dur="2s"
+            repeatCount="indefinite"
+            begin="0s"
+          />
+        </path>
+
+        <path
+          d="M125,55 L165,55 L165,70 L140,70 L140,90 L160,90 L160,105 L140,105 L140,145 L125,145 z"
+          stroke="#f0f0f0"
+          stroke-width="0"
+          fill="#f0f0f0"
+        >
+          <animate
+            attributeName="opacity"
+            values="0.3;1;0.3"
+            dur="2s"
+            repeatCount="indefinite"
+            begin="0.5s"
+          />
+        </path>
+      </g>
+    </svg>
