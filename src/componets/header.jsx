@@ -6,11 +6,10 @@ function Header() {
         <p style={styles.subtitle}>
           Manage your content with clarity and control
         </p>
-        <a
-          href="https://blog-post-api-2.vercel.app/"
-          className="viewBlogButton"
-        >
-          View Blog
+        <a href="https://blog-post-api-2.vercel.app/">
+          <button className="viewBlogButton">
+            <span>View Blogs</span>
+          </button>
         </a>
       </div>
     </header>
