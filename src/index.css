@@ -207,6 +207,9 @@ textarea {
   justify-content: flex-end;
   gap: 0.5rem;
 }
+.viewBlogLink {
+  text-decoration: none;
+}
 .viewBlogButton {
   background: transparent;
   position: relative;
@@ -246,15 +249,6 @@ textarea {
   text-align: center;
   transition: box-shadow 0.5s ease-out;
   z-index: -1;
-}
-
-.viewBlogButton:hover {
-  color: #fff;
-  border: 1px solid black;
-}
-
-.viewBlogButton:hover::before {
-  box-shadow: inset 0 0 0 10em black;
 }
 
 @media (max-width: 768px) {
